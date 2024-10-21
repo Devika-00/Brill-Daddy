@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from "../../components/Admin/Navbar";
+import Sidebar from '../../components/Admin/Sidebar';
 
 // Modal Component
 const Modal = ({ isOpen, onClose, voucher, onSubmit }) => {
@@ -219,72 +221,81 @@ const Voucher = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
-      <div className="flex justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-700">Voucher List</h2>
-        <button
-          onClick={handleAdd}
-          className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600"
-        >
-          Add Voucher
-        </button>
+      <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+  
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          <Navbar />
+  
+          <div className="flex justify-between mt-10 p-4">
+            <h2 className="text-2xl font-bold text-gray-700">Voucher List</h2>
+            <button
+              onClick={handleAdd}
+              className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600"
+            >
+              Add Voucher
+            </button>
+          </div>
+          
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200 table-auto p-4">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Details</th>
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Image</th>
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Amount</th>
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vouchers.map((voucher) => (
+                  <tr key={voucher.id} className="border-b border-gray-200">
+                    <td className="px-4 py-2">{voucher.name}</td>
+                    <td className="px-4 py-2">{voucher.details}</td>
+                    <td className="px-4 py-2">
+                      <img src={voucher.image} alt={voucher.name} className="w-16 h-16 object-cover" />
+                    </td>
+                    <td className="px-4 py-2">{voucher.amount}</td>
+                    <td className="px-4 py-2">
+                      <button
+                        onClick={() => handleEdit(voucher.id)}
+                        className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(voucher.id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+  
+          {/* Add/Edit Modal */}
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            voucher={currentVoucher}
+            onSubmit={handleSubmit}
+          />
+  
+          {/* Delete Confirmation Modal */}
+          <DeleteModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={confirmDelete}
+          />
+        </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Details</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Image</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Amount</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vouchers.map((voucher) => (
-              <tr key={voucher.id} className="border-b border-gray-200">
-                <td className="px-4 py-2">{voucher.name}</td>
-                <td className="px-4 py-2">{voucher.details}</td>
-                <td className="px-4 py-2">
-                  <img src={voucher.image} alt={voucher.name} className="w-16 h-16 object-cover" />
-                </td>
-                <td className="px-4 py-2">{voucher.amount}</td>
-                <td className="px-4 py-2">
-                  <button
-                    onClick={() => handleEdit(voucher.id)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(voucher.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Add/Edit Modal */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        voucher={currentVoucher}
-        onSubmit={handleSubmit}
-      />
-
-      {/* Delete Confirmation Modal */}
-      <DeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
-      />
-    </div>
-  );
+    );
 };
 
 export default Voucher;

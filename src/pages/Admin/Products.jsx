@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Admin/Navbar';
+import Sidebar from '../../components/Admin/Sidebar';
 
 const Product = () => {
   const initialProducts = [
@@ -77,6 +79,13 @@ const Product = () => {
   };
 
   return (
+    <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+  
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          <Navbar />
     <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
       <div className="flex justify-between mb-4">
         <h2 className="text-2xl font-bold text-gray-700">Product List</h2>
@@ -274,6 +283,8 @@ const Product = () => {
           </div>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 };

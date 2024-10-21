@@ -1,7 +1,16 @@
 import React from 'react';
+import Navbar from '../../components/Admin/Navbar';
+import Sidebar from '../../components/Admin/Sidebar';
 
 const Dashboard = () => {
   return (
+    <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+  
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          <Navbar />
     <div className="flex-1 p-4 sm:p-6 bg-gray-100">
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 sm:mb-6">Dashboard</h1>
       
@@ -24,6 +33,8 @@ const Dashboard = () => {
           <p className="text-3xl sm:text-4xl font-bold text-yellow-600">89</p>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };

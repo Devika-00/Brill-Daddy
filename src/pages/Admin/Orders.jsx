@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Admin/Navbar';
+import Sidebar from '../../components/Admin/Sidebar';
 
 const Orders = () => {
   const initialOrders = [
@@ -86,6 +88,13 @@ const Orders = () => {
   };
 
   return (
+    <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+  
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          <Navbar />
     <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
       <h2 className="text-2xl font-bold text-gray-700 mb-4">Order List</h2>
       <div className="overflow-x-auto">
@@ -164,6 +173,8 @@ const Orders = () => {
           </div>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 };
