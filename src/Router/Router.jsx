@@ -6,6 +6,9 @@ import Dashboard from "../pages/Admin/Dashboard";
 import Orders from "../pages/Admin/Orders";
 import Voucher from "../pages/Admin/Vocher";
 import Login from "../pages/Admin/Login";
+import Register from "../pages/User/Register";
+import UserLogin from "../pages/User/Login";
+import HomePage from "../pages/User/HomePage";
 
 
 const MainRouter = () => {
@@ -13,12 +16,15 @@ const MainRouter = () => {
     <Router>
       <Routes>
         {/*Admin Routes */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/admin" element={<Dashboard />} />
         <Route path="/users" element={<User />} />
         <Route path="/products" element={<Product />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/vouchers" element={<Voucher />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/adminlogin" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </Router>
   );

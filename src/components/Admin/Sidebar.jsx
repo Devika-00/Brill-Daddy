@@ -32,7 +32,7 @@ const Sidebar = () => {
 
           {/* Navigation Links */}
           <nav className="flex flex-col space-y-4 ml-5">
-            <a href="/" className="flex items-center space-x-4 p-2 hover:bg-gray-300 rounded-lg">
+            <a href="/admin" className="flex items-center space-x-4 p-2 hover:bg-gray-300 rounded-lg">
               <FaHome className="text-xl" /> {/* Home icon */}
               <span className={`${isOpen ? '' : 'hidden'}`}>Home</span>
             </a>
