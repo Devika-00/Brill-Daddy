@@ -9,6 +9,10 @@ import Login from "../pages/Admin/Login";
 import Register from "../pages/User/Register";
 import UserLogin from "../pages/User/Login";
 import HomePage from "../pages/User/HomePage";
+import SingleProduct from "../pages/User/SingleProduct";
+import WishlistPage from "../pages/User/Whishlist";
+import Cart from "../pages/User/Cart";
+import Checkout from "../pages/User/Checkout";
 
 
 const MainRouter = () => {
@@ -25,6 +29,10 @@ const MainRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/singleProduct" element={<SingleProduct />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </Router>
   );
