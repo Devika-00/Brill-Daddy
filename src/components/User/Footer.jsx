@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaPinterest } from 'react-icons/fa';
 import { SiGoogleplay, SiAppstore } from 'react-icons/si';
-import razorpayLogo from '../../images/imageLink'; 
-import billdeskLogo from '../../images/imageLink';
+
 
 
 const Footer = () => {
@@ -45,8 +44,8 @@ const Footer = () => {
         <div className='mr-20'>
           <h4 className="mb-4">Payment</h4>
           <div className="flex flex-wrap space-x-4">
-            <img src={razorpayLogo} alt="Razorpay" className="h-10" />
-             <img src={billdeskLogo} alt="Billdesk" className="h-10" />
+            {/* <img src={razorpayLogo} alt="Razorpay" className="h-10" />
+             <img src={billdeskLogo} alt="Billdesk" className="h-10" /> */}
             {/*<img src={paytmLogo} alt="Paytm" className="h-10" />
             <img src={mastercardLogo} alt="Mastercard" className="h-10" /> */}
             {/* Add other payment logos here */}

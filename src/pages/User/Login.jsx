@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/User/Topbar';
 import UserNavbar from '../../components/User/UserNavbar';
 import Footer from '../../components/User/Footer';
+import logo from "../../assets/logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const Login = () => {
 
         {/* Right Side: Logo and Description */}
         <div className="hidden md:flex flex-col justify-center items-center bg-white text-blue-950 md:w-1/2 p-10">
-          <div className="text-3xl font-bold mb-4">MyWebsite</div>
+        <img src={logo} alt="Logo" className="h-28 w-auto inline-block" />
           <p className="text-lg text-center">
             Welcome back! Please log in to continue exploring our services. We are glad to have you back!
           </p>

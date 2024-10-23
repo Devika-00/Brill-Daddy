@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/User/Topbar';
 import UserNavbar from '../../components/User/UserNavbar';
 import Footer from '../../components/User/Footer';
+import logo from "../../assets/logo.png"
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Register = () => {
       <div className="flex flex-col md:flex-row flex-1">
         {/* Left Side: Logo and Description */}
         <div className="hidden md:flex flex-col justify-center items-center bg-white text-blue-950 md:w-1/2 p-10">
-          <div className="text-3xl font-bold mb-4">MyWebsite</div>
+        <img src={logo} alt="Logo" className="h-28 w-auto inline-block" />
           <p className="text-lg text-center">
             Welcome! Create an account to start exploring our services. We are excited to have you on board!
           </p>

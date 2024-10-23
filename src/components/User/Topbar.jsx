@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from "../../assets/logo.png"
 
 const TopBar = () => {
   return (
@@ -7,7 +8,7 @@ const TopBar = () => {
         {/* Left: Logo */}
         <div className="text-black text-2xl font-bold ml-16 mt-2"> {/* Changed text color to black */}
           <a href="/">
-            <img src="logo.png" alt="Logo" className="h-10 w-auto inline-block" /> {/* Add your logo image here */}
+            <img src={logo} alt="Logo" className="h-10 w-auto inline-block" /> {/* Add your logo image here */}
           </a>
         </div>
 

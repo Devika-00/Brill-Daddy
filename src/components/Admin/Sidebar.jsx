@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaHome, FaUsers, FaBoxOpen, FaClipboardList, FaGift } from 'react-icons/fa'; // Use FaGift for the voucher icon
+import logo from "../../assets/logo.png"
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -12,6 +13,7 @@ const Sidebar = () => {
           {/* Logo Section */}
           <div className="flex items-center justify-between px-7">
             <h1 className={`text-2xl font-bold ${isOpen ? '' : 'hidden'}`}></h1>
+            <img src={logo} alt="Logo" className="h-10 " />
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className="focus:outline-none text-gray-500">
