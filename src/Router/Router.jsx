@@ -13,6 +13,9 @@ import SingleProduct from "../pages/User/SingleProduct";
 import WishlistPage from "../pages/User/Whishlist";
 import Cart from "../pages/User/Cart";
 import Checkout from "../pages/User/Checkout";
+import Shop from "../pages/User/Shop";
+import Event from "../pages/User/Event";
+import EventDetail from "../pages/User/EventDetail";
 
 
 const MainRouter = () => {
@@ -33,6 +36,9 @@ const MainRouter = () => {
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/event" element={<Event />} />
+        <Route path="/eventDetail" element={<EventDetail />} />
       </Routes>
     </Router>
   );
