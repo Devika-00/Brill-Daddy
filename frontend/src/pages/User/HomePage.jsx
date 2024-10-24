@@ -200,7 +200,7 @@ const HomePage = () => {
             </div>
             <div className="mt-2 text-center relative z-10">
               <a
-                href="/events"
+                href="/event"
                 className="inline-block px-6 py-2 text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
               >
                 View All Events
@@ -252,7 +252,7 @@ const HomePage = () => {
 
       {/* View More Button */}
       <div className="flex justify-center mt-6">
-        <Link to="/shopping" className=" text-blue-950 py-2 px-4 rounded hover:bg-blue-200 transition duration-300">
+        <Link to="/shop" className=" text-blue-950 py-2 px-4 rounded hover:bg-blue-200 transition duration-300">
           View More
         </Link>
       </div>

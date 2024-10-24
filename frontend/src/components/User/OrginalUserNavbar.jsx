@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { FaSearch, FaWallet, FaShoppingCart, FaUser, FaTimes } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const OrginalNavbar = () => {
     const [showAddressModal, setShowAddressModal] = useState(false);
     const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState("123 Main St, City");
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleLanguageDropdown = () => {
         setShowLanguageDropdown(!showLanguageDropdown);
@@ -128,9 +130,10 @@ const OrginalNavbar = () => {
                         <FaWallet className="h-6 w-6 text-green-500" />
                         <span className="text-gray-700 ml-1"></span>
                     </div>
-                    <div className="flex items-center ml-10 cursor-pointer hover:bg-gray-100 p-1 rounded">
+                    <div className="flex items-center ml-10 cursor-pointer hover:bg-gray-100 p-1 rounded"
+                    onClick={() => navigate('/cart')}>
                         <FaShoppingCart className="h-6 w-6 text-blue-500" />
-                        <span className="text-gray-700 ml-1">3</span>
+                        <span className="text-gray-700 ml-1"></span>
                     </div>
                 </div>
             </nav>
