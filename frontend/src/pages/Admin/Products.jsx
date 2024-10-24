@@ -6,28 +6,7 @@ import { SERVER_URL } from '../../Constants';
 import { uploadImagesToCloudinary } from '../../Api/uploadImage';
 
 const Product = () => {
-  const initialProducts = [
-    {
-      id: 1,
-      name: 'Product 1',
-      image: 'https://via.placeholder.com/150',
-      description: 'Description of Product 1',
-      price: 50,
-      salesPrice: 45,
-      stock: 20,
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      image: 'https://via.placeholder.com/150',
-      description: 'Description of Product 2',
-      price: 30,
-      salesPrice: 25,
-      stock: 10,
-    },
-  ];
-
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]); // Initialize with an empty array
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [brands, setBrands] = useState([]);
@@ -40,32 +19,49 @@ const Product = () => {
     price: '',
     salesPrice: '',
     discount: '',
-    color: '', 
+    color: '',
     mainImage: '',
     smallImages: [],
     quantity: '',
   });
 
   useEffect(() => {
-    axios.get(`${SERVER_URL}/admin/brands`)
-      .then((response) => {
-        console.log('Brands:', response.data);
-        setBrands(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching brands:', error);
+    // Fetch brands and categories
+    const fetchBrandsAndCategories = async () => {
+      try {
+        const [brandsResponse, categoriesResponse] = await Promise.all([
+          axios.get(`${SERVER_URL}/admin/brands`),
+          axios.get(`${SERVER_URL}/admin/categories`)
+        ]);
+        setBrands(brandsResponse.data);
+        setCategories(categoriesResponse.data);
+      } catch (error) {
+        console.error('Error fetching brands or categories:', error);
         setBrands([]);
-      });
+        setCategories([]);
+      }
+    };
 
-    axios.get(`${SERVER_URL}/admin/categories`)
-      .then((response) => {
-        console.log('Categories:', response.data);
-        setCategories(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching categories:', error);
-        setCategories([]); // Set to empty array on error
-      });
+    fetchBrandsAndCategories(); // Call the fetch function
+
+    // Fetch products from the database
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}/admin/products`);
+        const populatedProducts = await Promise.all(
+          response.data.map(async (product) => {
+            const populatedProduct = await axios.get(`${SERVER_URL}/admin/products/${product._id}?populate=images`);
+            return populatedProduct.data;
+          })
+        );
+        setProducts(populatedProducts); // Set fetched products with populated images
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProducts([]); // Set to empty array on error
+      }
+    }
+
+    fetchProducts(); // Call the fetch function
   }, []);
 
   const handleAddProduct = () => {
@@ -78,20 +74,16 @@ const Product = () => {
       alert('Sales price should be less than price');
       return;
     }
-    console.log(newProduct,"ooooooooooooooooooooooooo")
-  
+
     // Upload main image to Cloudinary
     const mainImageUrl = await uploadImagesToCloudinary(newProduct.mainImage);
-    console.log(mainImageUrl,"IIIIIIIIIIII")
     if (!mainImageUrl) return;  // Handle upload error
-  
+
     // Upload small images to Cloudinary
     const smallImagesUrls = await Promise.all(
       newProduct.smallImages.map(image => uploadImagesToCloudinary(image))
     );
-    console.log(smallImagesUrls,"Sssssssssssssss")
 
-  
     // Create product object with uploaded image URLs
     const productWithImages = {
       name: newProduct.name,
@@ -108,15 +100,14 @@ const Product = () => {
         imageUrl: smallImagesUrls.filter(url => url),  // Small images
       },
     };
-  
+
     try {
       // Send product data to the backend
-      console.log(productWithImages,"iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
       const response = await axios.post(`${SERVER_URL}/admin/addProducts`, productWithImages);
       if (response.status === 201) {
         // Update the product list after successful save
         setProducts([...products, response.data]);
-  
+
         // Reset the product form
         setNewProduct({
           name: '',
@@ -131,7 +122,7 @@ const Product = () => {
           smallImages: [],
           quantity: '',
         });
-  
+
         setIsAddModalOpen(false);
       } else {
         alert('Failed to add product');
@@ -144,7 +135,7 @@ const Product = () => {
 
   const handleImageUpload = (e, type) => {
     const files = e.target.files;
-  
+
     if (type === 'main') {
       // Handle single main image
       setNewProduct((prev) => ({
@@ -159,9 +150,6 @@ const Product = () => {
       }));
     }
   };
-  
-  
-  
 
   return (
     <div className="flex">
@@ -192,22 +180,27 @@ const Product = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
-                  <tr key={product.id} className="border-t">
-                    <td className="px-4 py-2 text-sm text-gray-600">{product.name}</td>
-                    <td className="px-4 py-2">
-                      <img src={product.mainImage || 'https://via.placeholder.com/150'} alt={product.name} className="w-16 h-16 object-cover rounded-md" />
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-600">
-                      <button className="text-blue-500 hover:underline">View Details</button>
-                    </td>
-                    <td className="px-4 py-2">
-                      <button className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2">Edit</button>
-                      <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">Delete</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+  {products.map((product) => (
+    <tr key={product._id} className="border-t">
+      <td className="px-4 py-2 text-sm text-gray-600">{product.name}</td>
+      <td className="px-4 py-2">
+        {product.images.length > 0 && product.images[0].thumbnailUrl ? ( // Check if images exist
+          <img src={product.images[0].thumbnailUrl} alt={product.name} className="w-16 h-16 object-cover rounded-md" />
+        ) : (
+          <span>No Image</span> // Fallback text if no image is available
+        )}
+      </td>
+      <td className="px-4 py-2 text-sm text-gray-600">
+        <button className="text-blue-500 hover:underline">View Details</button>
+      </td>
+      <td className="px-4 py-2">
+        <button className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2">Edit</button>
+        <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">Delete</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
             </table>
           </div>
 
@@ -255,54 +248,59 @@ const Product = () => {
                   type="number"
                   value={newProduct.price}
                   onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                  className="border p-2 mb-3 w-full rounded-md"
+                  className="border p-2 mb-2 w-full rounded-md"
                   placeholder="Price"
                 />
                 <input
                   type="number"
                   value={newProduct.salesPrice}
                   onChange={(e) => setNewProduct({ ...newProduct, salesPrice: e.target.value })}
-                  className="border p-2 mb-3 w-full rounded-md"
+                  className="border p-2 mb-2 w-full rounded-md"
                   placeholder="Sales Price"
+                />
+                <input
+                  type="number"
+                  value={newProduct.discount}
+                  onChange={(e) => setNewProduct({ ...newProduct, discount: e.target.value })}
+                  className="border p-2 mb-2 w-full rounded-md"
+                  placeholder="Discount"
                 />
                 <input
                   type="text"
                   value={newProduct.color}
                   onChange={(e) => setNewProduct({ ...newProduct, color: e.target.value })}
-                  className="border p-2 mb-3 w-full rounded-md"
-                  placeholder="Color (e.g., Red, #FF0000)"
-                /><p>Select Main Image</p>
+                  className="border p-2 mb-2 w-full rounded-md"
+                  placeholder="Color"
+                />
                 <input
                   type="file"
                   onChange={(e) => handleImageUpload(e, 'main')}
-                  className="border p-2 mb-3 w-full rounded-md"
-                  placeholder = "choose Main image"
+                  className="border p-2 mb-2 w-full rounded-md"
+                  accept="image/*"
                 />
-                <p>Select Sub Images</p>
                 <input
                   type="file"
                   onChange={(e) => handleImageUpload(e, 'small')}
+                  className="border p-2 mb-2 w-full rounded-md"
                   multiple
-                  className="border p-2 mb-3 w-full rounded-md"
-                 
-
+                  accept="image/*"
                 />
                 <input
                   type="number"
                   value={newProduct.quantity}
                   onChange={(e) => setNewProduct({ ...newProduct, quantity: e.target.value })}
-                  className="border p-2 mb-3 w-full rounded-md"
+                  className="border p-2 mb-2 w-full rounded-md"
                   placeholder="Quantity"
                 />
-                <div className="flex justify-between">
+                <div className="flex justify-end">
                   <button
                     onClick={() => setIsAddModalOpen(false)}
-                    className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">
+                    className="bg-gray-300 text-black px-4 py-2 rounded-md mr-2">
                     Cancel
                   </button>
                   <button
                     onClick={handleAddProductSubmit}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md">
                     Add Product
                   </button>
                 </div>
@@ -314,6 +312,5 @@ const Product = () => {
     </div>
   );
 };
-
 
 export default Product;

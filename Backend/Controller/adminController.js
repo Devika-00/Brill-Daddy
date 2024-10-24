@@ -105,16 +105,6 @@ const deleteBrand = async (req,res) =>{
 const addProduct = async (req,res) =>{
     try {
         const { name, description, price, salesPrice, category, brand, quantity, discount, color, images } = req.body;
-        console.log(name)
-        console.log(description)
-        console.log(price)
-        console.log(salesPrice)
-        console.log(category)
-        console.log(brand)
-        console.log(quantity)
-        console.log(color)
-        console.log(images)
-    
         // Create an entry for the images
         const newImages = new Images({
           thumbnailUrl: images.thumbnailUrl,
@@ -146,6 +136,41 @@ const addProduct = async (req,res) =>{
      }
 }
 
+const fetchProduct = async (req,res) =>{
+    
+    try {
+        // Fetch all products from the database and populate brand and category fields
+        const products = await Product.find().populate('category').populate('brand');
+        
+        // Return the fetched products as JSON
+        res.status(200).json(products);
+    } catch (error) {
+        // Handle any errors that occur during the fetch
+        res.status(500).json({ message: 'Error fetching products', error });
+    }
+}
+
+const fetchimages = async (req, res) =>{
+    const { id } = req.params;
+    const { populate } = req.query; // Check if populate is in query
+  
+    try {
+      const productQuery = Product.findById(id);
+      if (populate) {
+        productQuery.populate('images'); // Populate images if requested
+      }
+  
+      const product = await productQuery;
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+      res.json(product);
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      res.status(500).json({ message: 'Error fetching product' });
+    }
+}
 
 
-module.exports = {addCategory,addBrand,getcategories,updateCategory,deleteCategory,getBrand,editBrand,deleteBrand,addProduct}
+
+module.exports = {addCategory,addBrand,getcategories,updateCategory,deleteCategory,getBrand,editBrand,deleteBrand,addProduct,fetchProduct,fetchimages}
