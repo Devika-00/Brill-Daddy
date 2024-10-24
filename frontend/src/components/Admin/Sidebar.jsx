@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaHome, FaUsers, FaBoxOpen, FaClipboardList, FaGift } from 'react-icons/fa'; // Use FaGift for the voucher icon
+import { FaHome, FaUsers, FaBoxOpen, FaClipboardList, FaGift, FaTags, FaStar } from 'react-icons/fa'; 
 import logo from "../../assets/logo.png"
 
 const Sidebar = () => {
@@ -53,6 +53,14 @@ const Sidebar = () => {
             <a href="/vouchers" className="flex items-center space-x-4 p-2 hover:bg-gray-300 rounded-lg">
               <FaGift className="text-xl" /> {/* Voucher icon */}
               <span className={`${isOpen ? '' : 'hidden'}`}>Vouchers</span>
+            </a>
+            <a href="/category" className="flex items-center space-x-4 p-2 hover:bg-gray-300 rounded-lg">
+              <FaTags className="text-xl" /> {/* Voucher icon */}
+              <span className={`${isOpen ? '' : 'hidden'}`}>Category</span>
+            </a>
+            <a href="/brand" className="flex items-center space-x-4 p-2 hover:bg-gray-300 rounded-lg">
+              <FaStar className="text-xl" /> {/* Voucher icon */}
+              <span className={`${isOpen ? '' : 'hidden'}`}>Brands</span>
             </a>
           </nav>
         </div>

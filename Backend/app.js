@@ -4,6 +4,7 @@ dotenv.config();
 const cors = require("cors");
 const ENV = require("./Config/ENV");
 const connectDb = require("./Config/Connection");
+const adminRoute = require("./Routes/adminRoutes");
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
+app.use("/api/admin",adminRoute)
 
 const port = ENV.PORT || 5000;
 

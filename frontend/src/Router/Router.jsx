@@ -16,6 +16,8 @@ import Checkout from "../pages/User/Checkout";
 import Shop from "../pages/User/Shop";
 import Event from "../pages/User/Event";
 import EventDetail from "../pages/User/EventDetail";
+import Category from "../pages/Admin/category";
+import Brand from "../pages/Admin/brand";
 
 
 const MainRouter = () => {
@@ -39,6 +41,8 @@ const MainRouter = () => {
         <Route path="/shop" element={<Shop />} />
         <Route path="/event" element={<Event />} />
         <Route path="/eventDetail" element={<EventDetail />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/brand" element={<Brand />} />
       </Routes>
     </Router>
   );

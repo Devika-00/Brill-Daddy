@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
     {
-        name:{
-            type:String,
-            require:true,
-            trim:true,
+        name: {
+            type: String,
+            required: true, // Fixed spelling from "require" to "required"
+            trim: true,
         },
         description: {
             type: String,
@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema(
         },
         isListed: {
             type: Boolean,
-            defualt: true,
+            default: true, // Fixed spelling from "defualt" to "default"
         },
         quantity: {
             type: Number,
@@ -43,9 +43,12 @@ const productSchema = new mongoose.Schema(
         },
         color: { 
             type: String, 
-            required: true, 
+            required: true, // Added the color field
         },
-        images: [{ type: mongoose.Schema.Types.ObjectId, ref: "Images" }],
+        images: [{ 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "Images" 
+        }],
     },
     { timestamps: true }
 );

@@ -1,12 +1,14 @@
 import React from 'react';
 import MainRouter from './Router/Router';
+import ErrorBoundary from './components/Error/errorboundaries';
 
 const App = () => {
   return (
     
 
-       
-        <MainRouter />
+       <ErrorBoundary>
+         <MainRouter />
+       </ErrorBoundary>
   );
 };
 
